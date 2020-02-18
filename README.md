@@ -16,7 +16,7 @@ This project is wrap over [ultralytics](https://github.com/ultralytics/yolov3) o
 
 from PIL import Image
 from detector import YoloV3Predictor
-import numpa as np
+import numpy as np
 
 model = YoloV3Predictor('cpu', 416)
 img = np.array(Image.open('data/samples/bus.jpg'))
@@ -24,8 +24,9 @@ res = model.predict(img,conf_thres=0.5,agnostic_iou=False)
 ```
 Command line example:
 `python test.py data/samples/bus.jpg`
-the result will appear in `output/` folder
+the result would appear in `output/` folder
 
+![Output example](/output/result.jpg)
 ## Citiation
 Thanks [ultralytics](https://github.com/ultralytics/yolov3) for pretrained models.
 [![DOI](https://zenodo.org/badge/146165888.svg)](https://zenodo.org/badge/latestdoi/146165888)
