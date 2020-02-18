@@ -2,7 +2,7 @@
 
 ## Description
 
-This project is wrap over [ultralytics](https://github.com/ultralytics/yolov3) open source implementation of yolo v3. The idea is to provide developers easy interface to apply detector in different sorts of python computer vision applications.
+This project is wrap over [ultralytics](https://github.com/ultralytics/yolov3) open source implementation of yolo v3. The idea is to provide developers with easy interface to apply detector in different sorts of python computer vision applications.
 
 ## Installation
 
