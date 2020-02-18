@@ -29,4 +29,5 @@ the result would appear in `output/` folder
 ![Output example](/output/result.jpg)
 ## Citiation
 Thanks [ultralytics](https://github.com/ultralytics/yolov3) for pretrained models.
+
 [![DOI](https://zenodo.org/badge/146165888.svg)](https://zenodo.org/badge/latestdoi/146165888)
