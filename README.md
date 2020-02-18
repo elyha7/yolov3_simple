@@ -7,7 +7,7 @@ This project is wrap over [ultralytics](https://github.com/ultralytics/yolov3) o
 ## Installation
 
 * Install requirements: `pip3 install -r requirements.txt`
-* Download model weights (about 250mb) froom [google drive](https://drive.google.com/drive/folders/1B9FWmb6JkGV44C3EP8fuDTlX9gqnRzLK?usp=sharing)
+* Download model weights (about 250mb) from [google drive](https://drive.google.com/drive/folders/1B9FWmb6JkGV44C3EP8fuDTlX9gqnRzLK?usp=sharing)
 * Put weights in `weights/` folder
 
 ## Usage
