@@ -14,11 +14,13 @@ import sys
 
 class YoloV3Predictor:
     def __init__(self,
-                 device,
-                 target_size,
+                 device=None,
+                 target_size=416,
                  half_precision=False,
                  use_onnx=False,
-                 classes=None):
+                 classes=None,
+                 cfg_path='cfg/yolov3-spp.cfg',
+                 weights_path='weights/ultralytics68.pt'):
         """
             Object detector YoloV3 trained on COCO dataset.
             Args:
@@ -27,6 +29,8 @@ class YoloV3Predictor:
                 half_precision (bool): use torch half precision engine
                 use_onnx (bool): convert model to onnx.
                 classes (list of int): class numbers to detect on image. see data/labels.json.
+                cfg_path (str): path to yolo config.
+                weights_path (str): path to pretrained model.
         """
         self.half = half_precision
         self.classes = classes
@@ -42,6 +46,11 @@ class YoloV3Predictor:
         """
             Set torch.device to cpu/gpu mode.
         """
+        if device is None:
+            if torch.cuda.is_available():
+                device = 0
+            else:
+                device = 'cpu'
         if device == 'cpu':
             torch_device = torch.device('cpu')
         else:
@@ -49,13 +58,13 @@ class YoloV3Predictor:
             torch_device = torch.device('cuda:0')
         return torch_device
 
-    def load_model(self, use_onnx, half_precision):
+    def load_model(self, use_onnx, half_precision,cfg_path,weights_path):
         """
             Load model weights into device memory.
         """
-        model = Darknet('cfg/yolov3-spp.cfg', self.target_size)
+        model = Darknet(cfg_path, self.target_size)
         model.load_state_dict(torch.load(
-            'weights/ultralytics68.pt', map_location=self.device)['model'])
+            weights_path, map_location=self.device)['model'])
         model.to(self.device).eval()
         if use_onnx:
             model.fuse()
@@ -110,3 +119,6 @@ class YoloV3Predictor:
             det[:, :4] = scale_coords(
                 img.shape[2:], det[:, :4], orig_shape).round()
         return pred
+
+if __name__ == "__main__":
+    model = YoloV3Predictor(0)
