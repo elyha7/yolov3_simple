@@ -12,6 +12,7 @@ from PIL import Image
 import json
 import sys
 
+
 class YoloV3Predictor:
     def __init__(self,
                  device=None,
@@ -40,7 +41,8 @@ class YoloV3Predictor:
         else:
             self.target_size = round(target_size/32)*32
             self.device = self.set_device(device)
-        self.model = self.load_model(use_onnx, half_precision)
+        self.model = self.load_model(
+            use_onnx, half_precision, cfg_path, weights_path)
 
     def set_device(self, device):
         """
@@ -58,7 +60,7 @@ class YoloV3Predictor:
             torch_device = torch.device('cuda:0')
         return torch_device
 
-    def load_model(self, use_onnx, half_precision,cfg_path,weights_path):
+    def load_model(self, use_onnx, half_precision, cfg_path, weights_path):
         """
             Load model weights into device memory.
         """
@@ -68,13 +70,13 @@ class YoloV3Predictor:
         model.to(self.device).eval()
         if use_onnx:
             model.fuse()
-            img = torch.zeros((1, 3) + self.target_size)  
+            img = torch.zeros((1, 3) + self.target_size)
             torch.onnx.export(model, img, 'weights/export.onnx',
                               verbose=False, opset_version=10)
 
             import onnx
-            model = onnx.load('weights/export.onnx') 
-            onnx.checker.check_model(model)  
+            model = onnx.load('weights/export.onnx')
+            onnx.checker.check_model(model)
         if half_precision and self.device.type != 'cpu':
             model.half()
         torch.backends.cudnn.benchmark = True
@@ -119,6 +121,7 @@ class YoloV3Predictor:
             det[:, :4] = scale_coords(
                 img.shape[2:], det[:, :4], orig_shape).round()
         return pred
+
 
 if __name__ == "__main__":
     model = YoloV3Predictor(0)
